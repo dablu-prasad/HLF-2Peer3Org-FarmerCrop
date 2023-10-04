@@ -12,7 +12,6 @@ VERBOSE="$4"
 : ${DELAY:="3"}
 : ${MAX_RETRY:="5"}
 : ${VERBOSE:="false"}
-
 : ${CONTAINER_CLI:="docker"}
 : ${CONTAINER_CLI_COMPOSE:="${CONTAINER_CLI}-compose"}
 infoln "Using ${CONTAINER_CLI} and ${CONTAINER_CLI_COMPOSE}"
@@ -26,6 +25,12 @@ export ORDERER_CA=${PWD}/organizations/ordererOrganizations/example.com/tlsca/tl
 export PEER0_FARMER_CA=${PWD}/organizations/peerOrganizations/farmer.example.com/tlsca/tlsca.farmer.example.com-cert.pem
 export PEER0_MILL_CA=${PWD}/organizations/peerOrganizations/mill.example.com/tlsca/tlsca.mill.example.com-cert.pem
 export PEER0_WHOLESELLER_CA=${PWD}/organizations/peerOrganizations/wholeseller.example.com/tlsca/tlsca.wholeseller.example.com-cert.pem
+# export PEER0_FARMER_CA=${PWD}/organizations/peerOrganizations/farmer.example.com/peers/farmer.example.com/tls/ca.crt
+# export PEER0_MILL_CA=${PWD}/organizations/peerOrganizations/mill.example.com/peers/mill.example.com/tls/ca.crt
+# export PEER0_WHOLESELLER_CA=${PWD}/organizations/peerOrganizations/wholeseller.example.com/peers/wholeseller.example.com/tls/ca.crt
+# export PEER1_FARMER_CA=${PWD}/organizations/peerOrganizations/farmer.example.com/peers/f1.farmer.example.com/tls/ca.crt
+# export PEER1_MILL_CA=${PWD}/organizations/peerOrganizations/mill.example.com/peers/m1.mill.example.com/tls/ca.crt
+# export PEER1_WHOLESELLER_CA=${PWD}/organizations/peerOrganizations/wholeseller.example.com/peers/w1.wholeseller.example.com/tls/ca.crt
 export ORDERER_ADMIN_TLS_SIGN_CERT=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.crt
 export ORDERER_ADMIN_TLS_PRIVATE_KEY=${PWD}/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/tls/server.key
 
@@ -98,21 +103,36 @@ setGlobals() {
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_FARMER_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/farmer.example.com/users/Admin@farmer.example.com/msp
     export CORE_PEER_ADDRESS=localhost:7051
-    # export CORE_PEER_ADDRESS=localhost:8051
 
   elif [ $USING_ORG -eq 2 ]; then
     export CORE_PEER_LOCALMSPID="MillMSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_MILL_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/mill.example.com/users/Admin@mill.example.com/msp
     export CORE_PEER_ADDRESS=localhost:9051
-    # export CORE_PEER_ADDRESS=localhost:10051
 
   elif [ $USING_ORG -eq 3 ]; then
     export CORE_PEER_LOCALMSPID="WholesellerMSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_WHOLESELLER_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/wholeseller.example.com/users/Admin@wholeseller.example.com/msp
     export CORE_PEER_ADDRESS=localhost:11051
-    # export CORE_PEER_ADDRESS=localhost:12051
+
+  elif [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_LOCALMSPID="FarmerMSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_FARMER_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/farmer.example.com/users/Admin@farmer.example.com/msp
+    export CORE_PEER_ADDRESS=localhost:8051  
+
+  elif [ $USING_ORG -eq 5 ]; then
+    export CORE_PEER_LOCALMSPID="MillMSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_MILL_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/mill.example.com/users/Admin@mill.example.com/msp
+    export CORE_PEER_ADDRESS=localhost:10051  
+
+  elif [ $USING_ORG -eq 6 ]; then
+    export CORE_PEER_LOCALMSPID="WholesellerMSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_WHOLESELLER_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/wholeseller.example.com/users/Admin@wholeseller.example.com/msp
+    export CORE_PEER_ADDRESS=localhost:12051  
 
   else
     errorln "ORG Unknown"
@@ -144,19 +164,31 @@ createChannel
 successln "Channel '$CHANNEL_NAME' created"
 
 ## Join all the peers to the channel
-infoln "Joining farmer peer to the channel..."
+infoln "Joining farmer peer0 to the channel..."
 joinChannel 1
-infoln "Joining mill peer to the channel..."
+infoln "Joining mill peer0 to the channel..."
 joinChannel 2
-infoln "Joining wholeseller peer to the channel..."
+infoln "Joining wholeseller peer0 to the channel..."
 joinChannel 3
+infoln "Joining farmer peer1 to the channel..."
+joinChannel 4
+infoln "Joining mill peer1 to the channel..."
+joinChannel 5
+infoln "Joining wholeseller peer1 to the channel..."
+joinChannel 6
 
 ## Set the anchor peers for each org in the channel
-infoln "Setting anchor peer for farmer..."
+infoln "Setting anchor peer0 for farmer..."
 setAnchorPeer 1
-infoln "Setting anchor peer for mill..."
+infoln "Setting anchor peer0 for mill..."
 setAnchorPeer 2
-infoln "Setting anchor peer for farmer..."
+infoln "Setting anchor peer0 for farmer..."
 setAnchorPeer 3
+infoln "Setting anchor peer1 for farmer..."
+setAnchorPeer 4
+infoln "Setting anchor peer1 for mill..."
+setAnchorPeer 5
+infoln "Setting anchor peer1 for farmer..."
+setAnchorPeer 6
 
 successln "Channel '$CHANNEL_NAME' joined"

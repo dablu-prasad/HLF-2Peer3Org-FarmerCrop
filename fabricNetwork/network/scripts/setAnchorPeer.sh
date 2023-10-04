@@ -20,25 +20,28 @@ createAnchorPeerUpdate() {
   if [ $ORG -eq 1 ]; then
     HOST="farmer.example.com"
     PORT=7051
-    HOST2="f1.farmer.example.com"
-    PORT2=8051
   elif [ $ORG -eq 2 ]; then
     HOST="mill.example.com"
     PORT=9051
-    HOST2="m1.mill.example.com"
-    PORT2=10051
   elif [ $ORG -eq 3 ]; then
     HOST="wholeseller.example.com"
     PORT=11051 
-    HOST2="w1.wholeseller.example.com"
-    PORT2=12051  
+  elif [ $ORG -eq 4 ]; then
+    HOST="f1.farmer.example.com"
+    PORT=8051 
+  elif [ $ORG -eq 5 ]; then
+    HOST="m1.mill.example.com"
+    PORT=10051 
+  elif [ $ORG -eq 6 ]; then
+    HOST="w1.wholeseller.example.com"
+    PORT=12051     
   else
     errorln "Org${ORG} unknown"
   fi
 
   set -x
   # Modify the configuration to append the anchor peer 
-  jq '.channel_group.groups.Application.groups.'${CORE_PEER_LOCALMSPID}'.values += {"AnchorPeers":{"mod_policy": "Admins","value":{"anchor_peers": [{"host": "'$HOST'","port": '$PORT'},{"host": "'$HOST2'","port": '$PORT2'}]},"version": "0"}}' ${CORE_PEER_LOCALMSPID}config.json > ${CORE_PEER_LOCALMSPID}modified_config.json
+  jq '.channel_group.groups.Application.groups.'${CORE_PEER_LOCALMSPID}'.values += {"AnchorPeers":{"mod_policy": "Admins","value":{"anchor_peers": [{"host": "'$HOST'","port": '$PORT'}]},"version": "0"}}' ${CORE_PEER_LOCALMSPID}config.json > ${CORE_PEER_LOCALMSPID}modified_config.json
   { set +x; } 2>/dev/null
 
   # Compute a config update, based on the differences between 
@@ -53,6 +56,12 @@ updateAnchorPeer() {
   cat log.txt
   verifyResult $res "Anchor peer update failed"
   successln "Anchor peer set for org '$CORE_PEER_LOCALMSPID' on channel '$CHANNEL_NAME'"
+}
+
+verifyResult() {
+  if [ $1 -ne 0 ]; then
+    fatalln "$2"
+  fi
 }
 
 ORG=$1

@@ -7,15 +7,15 @@ import (
 
 func main() {
 	//Initialize setup for Org1
-	cryptoPath := "../../test-network/organizations/peerOrganizations/org1.example.com"
+	cryptoPath := "../../network/organizations/peerOrganizations/farmer.example.com"
 	orgConfig := web.OrgSetup{
-		OrgName:      "Org1",
-		MSPID:        "Org1MSP",
-		CertPath:     cryptoPath + "/users/User1@org1.example.com/msp/signcerts/cert.pem",
-		KeyPath:      cryptoPath + "/users/User1@org1.example.com/msp/keystore/",
-		TLSCertPath:  cryptoPath + "/peers/peer0.org1.example.com/tls/ca.crt",
+		OrgName:      "FarmerMSP",
+		MSPID:        "FarmerMSP",
+		CertPath:     cryptoPath + "/users/User1@farmer.example.com/msp/signcerts/cert.pem",
+		KeyPath:      cryptoPath + "/users/User1@farmer.example.com/msp/keystore/",
+		TLSCertPath:  cryptoPath + "/peers/farmer.example.com/tls/ca.crt",
 		PeerEndpoint: "localhost:7051",
-		GatewayPeer:  "peer0.org1.example.com",
+		GatewayPeer:  "farmer.example.com",
 	}
 
 	orgSetup, err := web.Initialize(orgConfig)

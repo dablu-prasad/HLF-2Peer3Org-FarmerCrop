@@ -1,3 +1,28 @@
+./network.sh down
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -q)
+docker rmi -f $(docker images | grep dev-peer[0-9] | awk '{print $3}')
+docker network prune
+docker system prune --volumes -f
+docker start $(docker ps -a -q --filter "status=exited")
+docker stop $(docker ps -a -q)
+./network.sh up createChannel -ca -c mychannel -s couchdb
+
+./network.sh deployCC -ccn mychaincode -ccp ./user/mychaincode -ccv 1 -ccl javascript
+
+./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-go/ -ccl go -c mychannel
+
+./network.sh deployCC -ccn basic -ccp ../asset-transfer-basic/chaincode-go/ -ccl go -cci initLedger -c mychannel
+
+ docker system prune --volumes -f
+
+chmod +x   (permissioned node)
+
+./addOrg3.sh up -ca -c mychannel -s couchdb
+./addOrg4.sh up -ca -c mychannel -s couchdb
+
+
+
 # Running the test network
 
 You can use the `./network.sh` script to stand up a simple Fabric test network. The test network has two peer organizations with one peer each and a single node raft ordering service. You can also use the `./network.sh` script to create channels and deploy chaincode. For more information, see [Using the Fabric test network](https://hyperledger-fabric.readthedocs.io/en/latest/test_network.html). The test network is being introduced in Fabric v2.0 as the long term replacement for the `first-network` sample.

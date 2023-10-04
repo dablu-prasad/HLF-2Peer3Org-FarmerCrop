@@ -117,16 +117,15 @@ checkPrereqs
 packageChaincode
 
 Install chaincode on farmer and mill and wholeseller
-infoln "Installing chaincode on farmer..."
+infoln "Installing peer0 chaincode on farmer..."
 installChaincode 1
-infoln "Install chaincode on mill..."
+infoln "Install peer0 chaincode on mill..."
 installChaincode 2
-infoln "Install chaincode on whoelseller..."
+infoln "Install  peer0 chaincode on whoelseller..."
 installChaincode 3
 
-
-# # query whether the chaincode is installed
- queryInstalled 1 2 3
+# query whether the chaincode is installed
+ queryInstalled 1
  
 # # approve the definition for org1
  approveForMyOrg 1
@@ -156,20 +155,23 @@ checkCommitReadiness 3 "\"FarmerMSP\": true" "\"MillMSP\": true" "\"WholesellerM
 commitChaincodeDefinition 1
 commitChaincodeDefinition 2 
 commitChaincodeDefinition 3
+commitChaincodeDefinition 4
+commitChaincodeDefinition 5
+commitChaincodeDefinition 6
 
 # ## query on all orgs to see that the definition committed successfully
 queryCommitted 1
 queryCommitted 2
 queryCommitted 3
-
+queryCommitted 4
+queryCommitted 5
+queryCommitted 6
 # Invoke the chaincode - this does require that the chaincode have the 'initLedger'
 # method defined
 if [ "$CC_INIT_FCN" = "NA" ]; then
   infoln "Chaincode initialization is not required"
 else
   chaincodeInvokeInit 1
-    chaincodeInvokeInit 2
-      chaincodeInvokeInit 3
 fi
 
 exit 0

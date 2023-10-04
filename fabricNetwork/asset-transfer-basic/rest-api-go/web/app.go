@@ -3,7 +3,6 @@ package web
 import (
 	"fmt"
 	"net/http"
-
 	"github.com/hyperledger/fabric-gateway/pkg/client"
 )
 

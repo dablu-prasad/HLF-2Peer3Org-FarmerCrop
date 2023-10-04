@@ -68,14 +68,7 @@ Organizations:
               Rule: "OR('FarmerMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('FarmerMSP.peer')"
-
-      AnchorPeers:
-            # AnchorPeers defines the location of peers which can be used
-            # for cross org gossip communication.  Note, this value is only
-            # encoded in the genesis block in the Application section context
-            - Host: farmer.example.com
-              Port: 7051         
+              Rule: "OR('FarmerMSP.peer')"        
 
     - &Mill
       # DefaultOrg defines the organization which is used in the sampleconfig
@@ -103,13 +96,6 @@ Organizations:
           Endorsement:
               Type: Signature
               Rule: "OR('MillMSP.peer')"
- 
-      AnchorPeers:
-            # AnchorPeers defines the location of peers which can be used
-            # for cross org gossip communication.  Note, this value is only
-            # encoded in the genesis block in the Application section context
-            - Host: mill.example.com
-              Port: 9051
 
     - &Wholeseller
       # DefaultOrg defines the organization which is used in the sampleconfig
@@ -137,13 +123,7 @@ Organizations:
           Endorsement:
               Type: Signature
               Rule: "OR('WholesellerMSP.peer')"
-
-      AnchorPeers:
-            # AnchorPeers defines the location of peers which can be used
-            # for cross org gossip communication.  Note, this value is only
-            # encoded in the genesis block in the Application section context
-            - Host: wholeseller.example.com
-              Port: 11051         
+        
       
 ################################################################################
 #
