@@ -1,0 +1,63 @@
+{
+	"name": "test-network",
+	"version": "1.0.0",
+	"license": "Apache-2.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "exploreradmin",
+			"password": "exploreradminpw"
+		},
+		"enableAuthentication": false,
+		"organization": "Org1MSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"mychannel": {
+			"peers": {
+				"peer0.org1.example.com": {}
+			},
+			"connection": {
+				"timeout": {
+					"peer": {
+						"endorser": "6000",
+						"eventHub": "6000",
+						"eventReg": "6000"
+					}
+				}
+			}
+		}
+	},
+	"organizations": {
+		"Org1MSP": {
+			"mspid": "Org1MSP",
+			"adminPrivateKey": {
+				"path": "/home/dablu/Documents/Hyperledger-besu/Fair-Files/Hyperledger-fabric-new/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/33dd7b0a99f06a3d39d38af3fc3027789ace7cd2a00ceb3d7be398824c5ccc56_sk"			                                                                                            
+			},
+			"peers": [
+				"peer0.org1.example.com"
+			],
+			"signedCert": {
+				"path": "/home/dablu/Documents/Hyperledger-besu/Fair-Files/Hyperledger-fabric-new/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"peer0.org1.example.com": {
+			"tlsCACerts": {
+				"path": "/home/dablu/Documents/Hyperledger-besu/Fair-Files/Hyperledger-fabric-new/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.org1.example.com:7051",
+			"grpcOptions": {
+				"ssl-target-name-override": "peer0.org1.example.com"
+			}
+		}
+	}
+}

@@ -1,0 +1,77 @@
+{
+	"name": "first-network",
+	"version": "1.0.0",
+	"license": "Apache-2.0",
+	"client": {
+		"tlsEnable": true,
+		"caCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
+		"adminCredential": {
+			"id": "exploreradmin2",
+			"password": "exploreradminpw",
+			"affiliation": "farmer.department1"
+		},
+		"enableAuthentication": false,
+		"organization": "FarmerMSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"mychannel": {
+			"peers": {
+				"farmer.example.com": {}
+			},
+			"connection": {
+				"timeout": {
+					"peer": {
+						"endorser": "6000",
+						"eventHub": "6000",
+						"eventReg": "6000"
+					}
+				}
+			}
+		}
+	},
+	"organizations": {
+		"FarmerMSP": {
+			"mspid": "FarmerMSP",
+			"peers": [
+				"farmer.example.com"
+			],
+			"certificateAuthorities": [
+				"ca0"
+			]
+		}
+	},
+	"peers": {
+		"farmer.example.com": {
+			"tlsCACerts": {
+				"path": "/home/dablu/Documents/Hyperledger-besu/Fair-Files/Hyperledger-fabric-new/1_Supply_chain/fabricNetwork/network/organizations/peerOrganizations/farmer.example.com/peers/farmer.example.com/tls/ca.crt"
+			},
+			"url": "grpcs://localhost:7051",
+			"grpcOptions": {
+				"ssl-target-name-override": "farmer.example.com"
+			}
+		}
+	},
+	"certificateAuthorities": {
+		"ca0": {
+			"url": "https://localhost:7054",
+			"httpOptions": {
+				"verify": false
+			},
+			"tlsCACerts": {
+				"path": "/home/dablu/Documents/Hyperledger-besu/Fair-Files/Hyperledger-fabric-new/1_Supply_chain/fabricNetwork/network/organizations/peerOrganizations/farmer.example.com/ca/ca.farmer.example.com-cert.pem"
+			},
+			"caName": "ca0-farmer"
+		}
+	}
+}

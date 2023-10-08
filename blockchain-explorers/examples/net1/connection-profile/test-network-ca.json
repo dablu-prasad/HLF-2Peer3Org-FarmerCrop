@@ -1,0 +1,69 @@
+{
+	"name": "test-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "exploreradmin",
+			"password": "exploreradminpw",
+			"affiliation": "farmer.department1"
+		},
+		"caCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "FarmerMSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"mychannel": {
+			"peers": {
+				"farmer.example.com": {}
+			},
+			"connection": {
+				"timeout": {
+					"peer": {
+						"endorser": "6000",
+						"eventHub": "6000",
+						"eventReg": "6000"
+					}
+				}
+			}
+		}
+	},
+	"organizations": {
+		"FarmerMSP": {
+			"mspid": "FarmerMSP",
+			"peers": ["farmer.example.com"],
+			"certificateAuthorities": ["ca0"]
+		}
+	},
+	"peers": {
+		"farmer.example.com": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/farmer.example.com/peers/farmer.example.com/tls/ca.crt"
+			},
+			"url": "grpcs://farmer.example.com:7051"
+		}
+	},
+	"certificateAuthorities": {
+		"ca0": {
+			"url": "https://ca_farmer:7054",
+			"httpOptions": {
+				"verify": false
+			},
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/farmer.example.com/ca/ca.farmer.example.com-cert.pem"
+			},
+			"caName": "ca0-farmer"
+		}
+	}
+}
